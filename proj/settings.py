@@ -45,7 +45,9 @@ if not DEBUG and SECRET_KEY.startswith("django-insecure"):
     raise RuntimeError("No **secure** SECRET_KEY provided")
 
 ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", "localhost").split(",")
-
+CSRF_TRUSTED_ORIGINS = os.environ.get(
+    "CSRF_TRUSTED_ORIGINS", "http://localhost"
+).split(",")
 
 # Application definition
 
