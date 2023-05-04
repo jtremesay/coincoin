@@ -19,7 +19,7 @@ services:
     environment:
         DATABASE_URL: "postgres://coincoin:coincoin@postgres/coincoin"
         CELERY_BROKER_URL: "redis://redis/0"
-        SECRET_KEY_FILE: coincoin_secret_key
+        SECRET_KEY_FILE: /run/secrets/coincoin_secret_key
     ports:
       - "8001:8000"
     networks:
@@ -54,7 +54,7 @@ services:
     environment:
         DATABASE_URL: "postgres://coincoin:coincoin@postgres/coincoin"
         CELERY_BROKER_URL: "redis://redis/0"
-        SECRET_KEY_FILE: coincoin_secret_key
+        SECRET_KEY_FILE: /run/secrets/coincoin_secret_key
     networks:
       - database
     secrets:
