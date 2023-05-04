@@ -30,3 +30,8 @@ jobs:
         with:
           push: true
           tags: killruana/coincoin:latest
+      - name: Redeploy
+        uses: distributhor/workflow-webhook@v3
+        env:
+          webhook_url: ${{ secrets.WEBHOOK_URL }}
+          verify_ssl: false
