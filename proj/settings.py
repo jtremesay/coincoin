@@ -12,8 +12,20 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 import os
 from pathlib import Path
+from typing import Optional
 
 import dj_database_url
+
+
+def get_env_var(name: str, default: Optional[str] = None) -> Optional[str]:
+    # Docker compose/swarm provides secrets through files
+    try:
+        secret_path = Path(os.environ[f"{name}_FILE"])
+    except KeyError:
+        return os.environ.get(name, default)
+    else:
+        return secret_path.read_text()
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -23,12 +35,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get("SECRET_KEY")
-if SECRET_KEY is None:
+SECRET_KEY = get_env_var("SECRET_KEY")
+if SECRET_KEY is None or not SECRET_KEY:
     raise RuntimeError("No SECRET_KEY defined")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get("DEBUG", "false").lower() == "true"
+if not DEBUG and SECRET_KEY.startswith("django-insecure"):
+    raise RuntimeError("No **secure** SECRET_KEY provided")
+
 ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", "localhost").split(",")
 
 
