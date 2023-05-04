@@ -21,7 +21,7 @@ services:
         CELERY_BROKER_URL: "redis://redis/0"
         SECRET_KEY_FILE: coincoin_secret_key
     ports:
-      - "8000:8000"
+      - "8001:8000"
     networks:
       - database
       - traefik_public
@@ -43,7 +43,7 @@ services:
       - traefik.enable=true
       - traefik.http.routers.coincoin.rule=Host(`coincoin.jtremesay.org`)
       - traefik.http.routers.coincoin.entrypoints=websecure
-      - traefik.http.services.coincoin.loadbalancer.server.port=8000
+      - traefik.http.services.coincoin.loadbalancer.server.port=8001
       - traefik.http.routers.coincoin.service=coincoin
       - traefik.http.routers.coincoin.tls.certresolver=zerossl
 
