@@ -15,7 +15,7 @@ services:
       - database
 
   coincoin:
-    image: "killruana/coincoin"
+    image: "killruana/coincoin:main"
     environment:
         DATABASE_URL: "postgres://coincoin:coincoin@postgres/coincoin"
         CELERY_BROKER_URL: "redis://redis/0"
@@ -29,7 +29,7 @@ services:
       - coincoin_secret_key
 
   celery_beat:
-    image: "killruana/coincoin"
+    image: "killruana/coincoin:main"
     command: "celery -A proj beat -l INFO --scheduler django_celery_beat.schedulers:DatabaseScheduler"
     environment:
         DATABASE_URL: "postgres://coincoin:coincoin@postgres/coincoin"
@@ -47,9 +47,8 @@ services:
       - traefik.http.routers.coincoin.service=coincoin
       - traefik.http.routers.coincoin.tls.certresolver=zerossl
 
-
   celery_worker:
-    image: "killruana/coincoin"
+    image: "killruana/coincoin:main"
     command: "celery -A proj worker -l INFO"
     environment:
         DATABASE_URL: "postgres://coincoin:coincoin@postgres/coincoin"
