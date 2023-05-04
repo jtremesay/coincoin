@@ -43,7 +43,7 @@ services:
       - traefik.enable=true
       - traefik.http.routers.coincoin.rule=Host(`coincoin.jtremesay.org`)
       - traefik.http.routers.coincoin.entrypoints=websecure
-      - traefik.http.services.coincoin.loadbalancer.server.port=8001
+      - traefik.http.services.coincoin.loadbalancer.server.port=8000
       - traefik.http.routers.coincoin.service=coincoin
       - traefik.http.routers.coincoin.tls.certresolver=zerossl
 
