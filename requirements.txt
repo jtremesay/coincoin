@@ -1,0 +1,10 @@
+celery[redis]
+dj-database-url
+Django
+django-autoslug
+django-celery-beat
+django-celery-results
+gunicorn
+psycopg[binary,pool]
+requests
+whitenoise[brotli]
