@@ -18,4 +18,4 @@ FROM static as serve
 COPY entrypoint.sh entrypoint.sh
 EXPOSE 8000
 ENTRYPOINT ["/opt/coincoin/entrypoint.sh"]
-CMD ["gunicorn", "--bind", "0.0.0.0:8000", "proj.wsgi"]
+CMD ["gunicorn", "--bind", "0.0.0.0:8001", "proj.wsgi"]
