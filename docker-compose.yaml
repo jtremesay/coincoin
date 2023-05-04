@@ -27,6 +27,13 @@ services:
       - traefik_public
     secrets:
       - coincoin_secret_key
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.coincoin.rule=Host(`coincoin.jtremesay.org`)
+      - traefik.http.routers.coincoin.entrypoints=websecure
+      - traefik.http.services.coincoin.loadbalancer.server.port=8001
+      - traefik.http.routers.coincoin.service=coincoin
+      - traefik.http.routers.coincoin.tls.certresolver=zerossl
 
   celery_beat:
     image: "killruana/coincoin:main"
@@ -39,13 +46,6 @@ services:
       - database
     secrets:
       - coincoin_secret_key
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.coincoin.rule=Host(`coincoin.jtremesay.org`)
-      - traefik.http.routers.coincoin.entrypoints=websecure
-      - traefik.http.services.coincoin.loadbalancer.server.port=8001
-      - traefik.http.routers.coincoin.service=coincoin
-      - traefik.http.routers.coincoin.tls.certresolver=zerossl
 
   celery_worker:
     image: "killruana/coincoin:main"
@@ -63,6 +63,7 @@ networks:
   database:
   traefik_public:
     external: true
+
 secrets:
   coincoin_secret_key:
     external: true
