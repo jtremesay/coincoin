@@ -20,6 +20,8 @@ services:
         DATABASE_URL: "postgres://coincoin:coincoin@postgres/coincoin"
         CELERY_BROKER_URL: "redis://redis/0"
         SECRET_KEY_FILE: /run/secrets/coincoin_secret_key
+        ALLOWED_HOSTS: coincoin.jtremesay.org
+
     ports:
       - "8001:8001"
     networks:
