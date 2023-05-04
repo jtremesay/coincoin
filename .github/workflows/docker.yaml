@@ -47,7 +47,10 @@ jobs:
         with:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
-      - 
+          cache-from: type=registry,ref=killruana/coincoin:buildcache
+          cache-to: type=registry,ref=killruana/coincoin:buildcache,mode=max
+
+      -
         name: Redeploy
         uses: distributhor/workflow-webhook@v3
         env:
