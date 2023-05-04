@@ -61,7 +61,7 @@ services:
       - coincoin_secret_key
 
 networks:
-  db:
+  database:
   traefik_public:
     external: true
 secrets:
