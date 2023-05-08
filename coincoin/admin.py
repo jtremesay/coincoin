@@ -5,7 +5,7 @@ from coincoin import models
 
 @admin.register(models.Board)
 class BoardAdmin(admin.ModelAdmin):
-    list_display = ["slug", "name", "url"]
+    list_display = ["slug", "name", "backend_url"]
 
 
 @admin.register(models.Post)

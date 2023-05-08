@@ -8,7 +8,7 @@ class Board(models.Model):
     uuid = models.UUIDField(primary_key=True, default=UUID4)
     name = models.CharField(max_length=32)
     slug = AutoSlugField(populate_from="name")
-    url = models.URLField(max_length=256)
+    backend_url = models.URLField(max_length=256)
 
     def __str__(self):
         return self.name if self.name else "UNNAMED"

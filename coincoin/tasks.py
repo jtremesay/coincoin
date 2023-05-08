@@ -26,7 +26,7 @@ def update_board(board_uuid: UUID) -> None:
     last_post = board.posts_set.order_by("-id").first()
     last_id = last_post.id if last_post is not None else -1
 
-    response = requests.get(board.url)
+    response = requests.get(board.backend_url)
     posts = parse_posts(response.text, board, last_id=last_id)
     Post.objects.bulk_create(posts)
 
