@@ -152,6 +152,7 @@ STORAGES = {
         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
     },
 }
+COMPRESS_OFFLINE = bool(os.environ.get("COMPRESS_OFFLINE"))
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
