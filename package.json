@@ -1,0 +1,21 @@
+{
+  "name": "coincoin",
+  "version": "1.0.0",
+  "description": "",
+  "main": "coincoin/static/coincoin/js/main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jtremesay/coincoin.git"
+  },
+  "author": "Jonathan Tremesaygues",
+  "bugs": {
+    "url": "https://github.com/jtremesay/coincoin/issues"
+  },
+  "homepage": "https://github.com/jtremesay/coincoin#readme",
+  "dependencies": {
+    "oojs-ui": "^0.46.3"
+  }
+}

@@ -1,4 +1,5 @@
 /.direnv/
+/node_modules/
+/staticfiles/
 __pycache__/
 *.sqlite3
-/staticfiles/
