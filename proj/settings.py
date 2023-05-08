@@ -41,7 +41,7 @@ if SECRET_KEY is None or not SECRET_KEY:
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get("DEBUG", "false").lower() == "true"
-if not DEBUG» and SECRET_KEY.startswith("django-insecure"):
+if not DEBUG and SECRET_KEY.startswith("django-insecure"):
     raise RuntimeError("No **secure** SECRET_KEY provided")
 
 ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", "localhost").split(",")
