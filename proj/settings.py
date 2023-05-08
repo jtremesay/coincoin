@@ -62,6 +62,7 @@ INSTALLED_APPS = [
     "django_celery_beat",
     "django_celery_results",
     "compressor",
+    "rest_framework",
     "coincoin",
 ]
 
@@ -167,3 +168,13 @@ CELERY_TASK_TRACK_STARTED = True
 CELERY_TASK_TIME_LIMIT = 30 * 60
 CELERY_RESULT_BACKEND = "django-db"
 CELERY_BROKER_URL = os.environ.get("CELERY_BROKER_URL", "redis://localhost/0")
+
+# REST framework
+
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    "DEFAULT_PERMISSION_CLASSES": [
+        "rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly"
+    ]
+}
