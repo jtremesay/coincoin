@@ -1,10 +1,14 @@
+beautifulsoup4
 celery[redis]
+csscompressor
 dj-database-url
 Django
 django-autoslug
 django-celery-beat
 django-celery-results
+django_compressor
 gunicorn
+html5lib
 psycopg[binary,pool]
 requests
 whitenoise[brotli]

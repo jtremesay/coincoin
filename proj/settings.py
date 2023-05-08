@@ -41,7 +41,7 @@ if SECRET_KEY is None or not SECRET_KEY:
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get("DEBUG", "false").lower() == "true"
-if not DEBUG and SECRET_KEY.startswith("django-insecure"):
+if not DEBUG» and SECRET_KEY.startswith("django-insecure"):
     raise RuntimeError("No **secure** SECRET_KEY provided")
 
 ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", "localhost").split(",")
@@ -61,6 +61,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django_celery_beat",
     "django_celery_results",
+    "compressor",
     "coincoin",
 ]
 
@@ -141,11 +142,17 @@ USE_TZ = True
 
 STATIC_ROOT = BASE_DIR / "staticfiles"
 STATIC_URL = "static/"
+STATICFILES_FINDERS = (
+    "django.contrib.staticfiles.finders.FileSystemFinder",
+    "django.contrib.staticfiles.finders.AppDirectoriesFinder",
+    "compressor.finders.CompressorFinder",
+)
 STORAGES = {
     "staticfiles": {
         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
     },
 }
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
