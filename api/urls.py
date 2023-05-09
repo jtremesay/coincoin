@@ -8,7 +8,7 @@ from coincoin import models
 class BoardSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Board
-        fields = ["name", "slug"]
+        fields = ["uuid", "name", "slug"]
 
 
 class BoardViewSet(viewsets.ModelViewSet):
@@ -19,7 +19,7 @@ class BoardViewSet(viewsets.ModelViewSet):
 class PostSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Post
-        fields = ["id", "timestamp", "login", "message", "info"]
+        fields = ["uuid", "id", "timestamp", "login", "message", "info"]
 
 
 class PostViewSet(viewsets.ModelViewSet):
