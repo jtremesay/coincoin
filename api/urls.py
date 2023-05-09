@@ -12,7 +12,7 @@ class BoardSerializer(serializers.ModelSerializer):
 
 
 class BoardViewSet(viewsets.ModelViewSet):
-    queryset = models.Board.objects.all()
+    queryset = models.Board.objects.order_by("name")
     serializer_class = BoardSerializer
 
 
