@@ -1,6 +1,11 @@
 REPOSITORY = killruana/coincoin
 TAG = latest
 
+all: image
+
+image-deps:
+	docker build --target deps -t ${REPOSITORY}-deps:${TAG} .
+
 image:
 	docker build -t ${REPOSITORY}:${TAG} .
 
@@ -13,7 +18,8 @@ push: image
 run: image
 	docker run -e SECRET_KEY -p 8000:8000 ${REPOSITORY}:${TAG}
 
-up: image
-	docker compose up --remove-orphans
 
-.PHONY: image pull push run up
+up: image-deps
+	docker compose -f docker-compose.dev.yaml up --remove-orphans
+
+.PHONY: image-deps image pull push run up

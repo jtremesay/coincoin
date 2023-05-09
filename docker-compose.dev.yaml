@@ -1,0 +1,59 @@
+version: "3.8"
+services:
+  postgres:
+    image: "postgres:15"
+    environment:
+      POSTGRES_DB: "coincoin"
+      POSTGRES_USER: "coincoin"
+      POSTGRES_PASSWORD: "coincoin"
+
+  redis:
+    image: "redis"
+
+  coincoin:
+    image: "killruana/coincoin-deps"
+    command: "bash entrypoint.sh python manage.py runserver 0.0.0.0:8001"
+    environment:
+        DATABASE_URL: "postgres://coincoin:coincoin@postgres/coincoin"
+        CELERY_BROKER_URL: "redis://redis/0"
+        DEBUG: "true"
+        SECRET_KEY: "django-insecure-dev"
+    ports:
+      - "8001:8001"
+    volumes:
+      - /home/jtremesay/projects/coincoin/api:/opt/coincoin/api
+      - /home/jtremesay/projects/coincoin/coincoin:/opt/coincoin/coincoin
+      - /home/jtremesay/projects/coincoin/proj:/opt/coincoin/proj
+      - /home/jtremesay/projects/coincoin/entrypoint.sh:/opt/coincoin/entrypoint.sh
+      - /home/jtremesay/projects/coincoin/manage.py:/opt/coincoin/manage.py
+
+  celery_beat:
+    image: "killruana/coincoin-deps"
+    command: "bash entrypoint.sh celery -A proj beat -l INFO --scheduler django_celery_beat.schedulers:DatabaseScheduler"
+    environment:
+        DATABASE_URL: "postgres://coincoin:coincoin@postgres/coincoin"
+        CELERY_BROKER_URL: "redis://redis/0"
+        DEBUG: "true"
+        SECRET_KEY: "django-insecure-dev"
+    volumes:
+      - /home/jtremesay/projects/coincoin/api:/opt/coincoin/api
+      - /home/jtremesay/projects/coincoin/coincoin:/opt/coincoin/coincoin
+      - /home/jtremesay/projects/coincoin/proj:/opt/coincoin/proj
+      - /home/jtremesay/projects/coincoin/entrypoint.sh:/opt/coincoin/entrypoint.sh
+      - /home/jtremesay/projects/coincoin/manage.py:/opt/coincoin/manage.py
+
+
+  celery_worker:
+    image: "killruana/coincoin-deps"
+    command: "bash entrypoint.sh celery -A proj worker -l INFO"
+    environment:
+        DATABASE_URL: "postgres://coincoin:coincoin@postgres/coincoin"
+        CELERY_BROKER_URL: "redis://redis/0"
+        DEBUG: "true"
+        SECRET_KEY: "django-insecure-dev"
+    volumes:
+      - /home/jtremesay/projects/coincoin/api:/opt/coincoin/api
+      - /home/jtremesay/projects/coincoin/coincoin:/opt/coincoin/coincoin
+      - /home/jtremesay/projects/coincoin/proj:/opt/coincoin/proj
+      - /home/jtremesay/projects/coincoin/entrypoint.sh:/opt/coincoin/entrypoint.sh
+      - /home/jtremesay/projects/coincoin/manage.py:/opt/coincoin/manage.py
