@@ -64,6 +64,7 @@ INSTALLED_APPS = [
     "compressor",
     "rest_framework",
     "coincoin",
+    "api",
 ]
 
 MIDDLEWARE = [
