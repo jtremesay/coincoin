@@ -13,7 +13,15 @@ APIClient.prototype.getBoards = function (callback) {
 }
 
 APIClient.prototype.getPosts = function (board, callback) {
-    this.get(`boards/${board.uuid}/posts`, callback)
+    this.get(`boards/${board.uuid}/posts`, (posts) => {
+        posts.map((post) => {
+            post.timestamp = new Date(post.timestamp)
+
+            return post
+        })
+
+        callback(posts)
+    })
 }
 
 APIClient.prototype.get = function (suffix, callback) {
@@ -28,6 +36,29 @@ APIClient.prototype.get = function (suffix, callback) {
     })
 }
 
+//----------------------------------------------------------------------------
+// Post Layout
+//----------------------------------------------------------------------------
+
+function PostLayout(post, config) {
+    PostLayout.super.call(this, config)
+
+    this.timstamp_label = new OO.ui.LabelWidget()
+    this.login_label = new OO.ui.LabelWidget()
+    this.message_label = new OO.ui.LabelWidget()
+    this.addItems([this.timstamp_label, this.login_label, this.message_label])
+
+    this.setPost(post)
+}
+
+OO.inheritClass(PostLayout, OO.ui.HorizontalLayout)
+
+PostLayout.prototype.setPost = function (post) {
+    this.post = post
+    this.timstamp_label.setLabel(`${this.post.timestamp.getHours()}:${this.post.timestamp.getMinutes()}:${this.post.timestamp.getSeconds()}`)
+    this.login_label.setLabel(`<${this.post.login}>`)
+    this.message_label.setLabel(this.post.message)
+}
 
 //----------------------------------------------------------------------------
 // Board PageLayout
@@ -48,7 +79,8 @@ BoardPageLayout.prototype.setupOutlineItem = function () {
 };
 
 BoardPageLayout.prototype.onPostsLoaded = function (posts) {
-    this.$element.text(JSON.stringify(posts))
+    const posts_layouts = posts.map((post) => new PostLayout(post).$element)
+    this.$element.append(posts_layouts)
 }
 
 
