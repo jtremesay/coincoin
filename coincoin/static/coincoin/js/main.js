@@ -4,8 +4,7 @@ $(function () {
         BoardPageLayout.super.call(this, board.slug, config);
         this.board = board
 
-        this.$element.append('<p>First page</p><p>(This booklet has an outline, displayed on ' +
-            'the left)</p>');
+        this.$element.append(this.board.name);
     }
     OO.inheritClass(BoardPageLayout, OO.ui.PageLayout);
     BoardPageLayout.prototype.setupOutlineItem = function () {
