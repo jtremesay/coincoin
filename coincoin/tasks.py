@@ -47,16 +47,32 @@ def parse_posts(
             ),
             ZoneInfo("Europe/Paris"),
         )
-        info = post_node.getElementsByTagName("info")[0].childNodes[0].data
-        message = (
-            post_node.getElementsByTagName("message")[0].childNodes[0].data
-        )
-        login = post_node.getElementsByTagName("login")[0].childNodes[0].data
-        yield Post(
-            board=board,
-            id=id_,
-            timestamp=timestamp,
-            info=info,
-            message=message,
-            login=login,
-        )
+
+        try:
+            info = post_node.getElementsByTagName("info")[0].childNodes[0].data
+        except:
+            info = ""
+
+        try:
+            message = (
+                post_node.getElementsByTagName("message")[0].childNodes[0].data
+            )
+        except:
+            message = ""
+
+        try:
+            login = (
+                post_node.getElementsByTagName("login")[0].childNodes[0].data
+            )
+        except:
+            login = ""
+
+        else:
+            yield Post(
+                board=board,
+                id=id_,
+                timestamp=timestamp,
+                info=info,
+                message=message,
+                login=login,
+            )
