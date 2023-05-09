@@ -1,130 +1,44 @@
 $(function () {
-    var ToDoItemWidget = function (config) {
-        config = config || {};
-        ToDoItemWidget.super.call(this, config);
 
-        this.creationTime = config.creationTime;
+    function BoardPageLayout(board, config) {
+        BoardPageLayout.super.call(this, board.slug, config);
+        this.board = board
 
-        this.deleteButton = new OO.ui.ButtonWidget({
-            label: 'Delete'
-        });
-
-        this.$element
-            .addClass('todo-itemWidget')
-            .append(this.deleteButton.$element);
-
-        this.deleteButton.connect(this, {
-            click: 'onDeleteButtonClick'
-        });
+        this.$element.append('<p>First page</p><p>(This booklet has an outline, displayed on ' +
+            'the left)</p>');
+    }
+    OO.inheritClass(BoardPageLayout, OO.ui.PageLayout);
+    BoardPageLayout.prototype.setupOutlineItem = function () {
+        this.outlineItem.setLabel(this.board.name);
     };
 
-    OO.inheritClass(ToDoItemWidget, OO.ui.OptionWidget);
+    // Get the app container
+    const $coincoin = $(".coincoin").first()
 
-    ToDoItemWidget.prototype.getCreationTime = function () {
-        return this.creationTime;
-    };
-
-    ToDoItemWidget.prototype.getPrettyCreationTime = function () {
-        var time = new Date(this.creationTime),
-            hour = time.getHours(),
-            minute = time.getMinutes(),
-            second = time.getSeconds(),
-            temp = String((hour > 12) ? hour - 12 : hour),
-            monthNames = [
-                'Jan',
-                'Feb',
-                'Mar',
-                'Apr',
-                'May',
-                'Jun',
-                'Jul',
-                'Aug',
-                'Sep',
-                'Oct',
-                'Nov',
-                'Dec'
-            ];
-
-        if (hour === 0) {
-            temp = '12';
-        }
-        temp += ((minute < 10) ? ':0' : ':') + minute;
-        temp += ((second < 10) ? ':0' : ':') + second;
-        temp += (hour >= 12) ? ' P.M.' : ' A.M.';
-        return [
-            time.getDate(),
-            monthNames[time.getMonth()],
-            time.getFullYear() + ', ',
-            temp
-        ].join(' ');
-    };
-
-    ToDoItemWidget.prototype.onDeleteButtonClick = function () {
-        this.emit('delete');
-    };
-
-    var ToDoListWidget = function ToDoListWidget(config) {
-        config = config || {};
-
-        // Call parent constructor
-        ToDoListWidget.super.call(this, config);
-
-        this.aggregate({
-            delete: 'itemDelete'
-        });
-
-        this.connect(this, {
-            itemDelete: 'onItemDelete'
-        });
-    };
-
-    OO.inheritClass(ToDoListWidget, OO.ui.SelectWidget);
-
-    ToDoListWidget.prototype.onItemDelete = function (itemWidget) {
-        this.removeItems([itemWidget]);
-    };
-
-    var input = new OO.ui.TextInputWidget({
-        placeholder: 'Add a ToDo item'
-    }),
-        list = new ToDoListWidget({
-            classes: ['todo-list']
-        }),
-        info = new OO.ui.LabelWidget({
-            label: 'Information',
-            classes: ['todo-info']
-        });
-
-    // Respond to 'enter' keypress
-    input.on('enter', function () {
-        // Check for duplicates and prevent empty input
-        if (list.findItemFromData(input.getValue()) ||
-            input.getValue() === '') {
-            input.$element.addClass('todo-error');
-            return;
-        }
-        input.$element.removeClass('todo-error');
-
-        list.on('choose', function (item) {
-            info.setLabel(item.getData() + ' (' +
-                item.getPrettyCreationTime() + ')');
-        });
-
-        // Add the item
-        list.addItems([
-            new ToDoItemWidget({
-                data: input.getValue(),
-                label: input.getValue(),
-                creationTime: Date.now()
-            })
-        ]);
-        input.setValue('');
+    // Create the booklet
+    const booklet = new OO.ui.BookletLayout({
+        outlined: true
     });
+    $coincoin.append(booklet.$element)
 
-    // Append the app widgets
-    $('.wrapper').append(
-        input.$element,
-        list.$element,
-        info.$element
-    );
+    // Get the API urls
+    const api_root_url = $coincoin.data("api-root")
+    axios({
+        method: 'get',
+        url: api_root_url
+    }).then(function (response) {
+        const api_urls = response.data
+
+        // Get the boards
+        axios({
+            method: 'get',
+            url: api_urls.boards
+        }).then(function (response) {
+            const boards = response.data
+            for (let board of boards) {
+                const page = new BoardPageLayout(board)
+                booklet.addPages([page])
+            }
+        })
+    })
 });
