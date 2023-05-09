@@ -17,6 +17,7 @@ FROM deps AS src
 COPY manage.py manage.py
 COPY proj proj
 COPY coincoin coincoin
+COPY api api
 
 FROM src AS static
 RUN SECRET_KEY="no-secret" python manage.py collectstatic --no-input
