@@ -21,7 +21,6 @@ services:
         CELERY_BROKER_URL: "redis://redis/0"
         SECRET_KEY_FILE: /run/secrets/coincoin_secret_key
         ALLOWED_HOSTS: coincoin.jtremesay.org
-        #CSRF_TRUSTED_ORIGINS: https://coincoin.jtremesay.org
         COMPRESS_OFFLINE: "true"
     ports:
       - "8001:8001"
@@ -46,7 +45,6 @@ services:
         CELERY_BROKER_URL: "redis://redis/0"
         SECRET_KEY_FILE: /run/secrets/coincoin_secret_key
         ALLOWED_HOSTS: coincoin.jtremesay.org
-        #CSRF_TRUSTED_ORIGINS: https://coincoin.jtremesay.org
         COMPRESS_OFFLINE: "true"
     networks:
       - database
@@ -61,7 +59,6 @@ services:
         CELERY_BROKER_URL: "redis://redis/0"
         SECRET_KEY_FILE: /run/secrets/coincoin_secret_key
         ALLOWED_HOSTS: coincoin.jtremesay.org
-        #CSRF_TRUSTED_ORIGINS: https://coincoin.jtremesay.org
         COMPRESS_OFFLINE: "true"
     networks:
       - database
