@@ -1,15 +1,25 @@
 
 import $ from 'jquery'
 import { APIClient } from "./APIClient";
+import { BoardBookletLayout } from './widgets/BoardBookletLayout';
 
-const $coincoin = $('.coincoin').first();
-const api_root = $coincoin.data("api-root")!
 
-const client = new APIClient(api_root)
-client.get_boards(boards => {
-  for (let board of boards) {
-    client.get_posts(board, (posts) => {
-      console.log(board, posts)
-    })
-  }
-})
+//----------------------------------------------------------------------------
+// Main
+//----------------------------------------------------------------------------
+function main() {
+  // Get the app container
+  const $coincoin = $(".coincoin").first()
+
+  // Create the API client
+  const api_root = $coincoin.data("api-root")
+  const client = new APIClient(api_root)
+
+  // Create the booklet
+  const booklet = new BoardBookletLayout(client, {
+    outlined: true
+  });
+  $coincoin.append(booklet.$element)
+}
+
+main()

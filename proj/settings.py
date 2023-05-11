@@ -142,9 +142,18 @@ USE_TZ = True
 
 STATIC_ROOT = BASE_DIR / "staticfiles"
 STATIC_URL = "static/"
+JS_LIBS = ["jquery", "oojs", "oojs-ui"]
 STATICFILES_DIRS = [
+    (
+        f"node_modules/{js_lib}",
+        str((BASE_DIR / "node_modules" / js_lib / "dist").resolve()),
+    )
+    for js_lib in JS_LIBS
+] + [
     ("ui", str((BASE_DIR / "ui" / "dist").resolve())),
 ]
+
+
 STORAGES = {
     "staticfiles": {
         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
