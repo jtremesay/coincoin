@@ -8,6 +8,7 @@ FROM base AS deps
 WORKDIR /opt/coincoin
 COPY package.json package.json
 COPY package-lock.json package-lock.json
+COPY ui/package.json ui/package.json
 RUN npm install
 
 COPY requirements.txt requirements.txt
