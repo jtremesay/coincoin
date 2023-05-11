@@ -1,6 +1,5 @@
 beautifulsoup4
 celery[redis]
-csscompressor
 dj-database-url
 Django
 djangorestframework
@@ -8,11 +7,9 @@ django-autoslug
 django-celery-beat
 django-celery-results
 django-filter
-django_compressor
 drf-nested-routers
 gunicorn
 html5lib
-markdown
 psycopg[binary,pool]
 requests
 whitenoise[brotli]

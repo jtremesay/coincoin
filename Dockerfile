@@ -21,7 +21,6 @@ COPY api api
 
 FROM src AS static
 RUN SECRET_KEY="no-secret" python manage.py collectstatic --no-input
-RUN SECRET_KEY="no-secret" COMPRESS_OFFLINE=true python manage.py compress
 
 FROM static as serve
 COPY entrypoint.sh entrypoint.sh
