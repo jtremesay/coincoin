@@ -18,8 +18,10 @@ COPY manage.py manage.py
 COPY proj proj
 COPY coincoin coincoin
 COPY api api
+COPY ui ui
 
 FROM src AS static
+RUN npm run build --workspace=ui
 RUN SECRET_KEY="no-secret" python manage.py collectstatic --no-input
 
 FROM static as serve
