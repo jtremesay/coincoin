@@ -8,6 +8,8 @@ services:
       POSTGRES_PASSWORD: "coincoin"
     networks:
       - database
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
 
   redis:
     image: "redis"
@@ -70,3 +72,6 @@ networks:
 secrets:
   coincoin_secret_key:
     external: true
+
+volumes:
+  postgres_data:

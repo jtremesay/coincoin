@@ -6,6 +6,8 @@ services:
       POSTGRES_DB: "coincoin"
       POSTGRES_USER: "coincoin"
       POSTGRES_PASSWORD: "coincoin"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
 
   redis:
     image: "redis"
@@ -45,3 +47,6 @@ services:
         SECRET_KEY: "django-insecure-dev"
     volumes:
       - /home/jtremesay/projects/coincoin:/opt/coincoin
+
+volumes:
+  postgres_data:
