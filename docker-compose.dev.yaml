@@ -21,11 +21,7 @@ services:
     ports:
       - "8001:8001"
     volumes:
-      - /home/jtremesay/projects/coincoin/api:/opt/coincoin/api
-      - /home/jtremesay/projects/coincoin/coincoin:/opt/coincoin/coincoin
-      - /home/jtremesay/projects/coincoin/proj:/opt/coincoin/proj
-      - /home/jtremesay/projects/coincoin/entrypoint.sh:/opt/coincoin/entrypoint.sh
-      - /home/jtremesay/projects/coincoin/manage.py:/opt/coincoin/manage.py
+      - /home/jtremesay/projects/coincoin:/opt/coincoin
 
   celery_beat:
     image: "killruana/coincoin-deps"
@@ -36,11 +32,7 @@ services:
         DEBUG: "true"
         SECRET_KEY: "django-insecure-dev"
     volumes:
-      - /home/jtremesay/projects/coincoin/api:/opt/coincoin/api
-      - /home/jtremesay/projects/coincoin/coincoin:/opt/coincoin/coincoin
-      - /home/jtremesay/projects/coincoin/proj:/opt/coincoin/proj
-      - /home/jtremesay/projects/coincoin/entrypoint.sh:/opt/coincoin/entrypoint.sh
-      - /home/jtremesay/projects/coincoin/manage.py:/opt/coincoin/manage.py
+      - /home/jtremesay/projects/coincoin:/opt/coincoin
 
 
   celery_worker:
@@ -52,8 +44,4 @@ services:
         DEBUG: "true"
         SECRET_KEY: "django-insecure-dev"
     volumes:
-      - /home/jtremesay/projects/coincoin/api:/opt/coincoin/api
-      - /home/jtremesay/projects/coincoin/coincoin:/opt/coincoin/coincoin
-      - /home/jtremesay/projects/coincoin/proj:/opt/coincoin/proj
-      - /home/jtremesay/projects/coincoin/entrypoint.sh:/opt/coincoin/entrypoint.sh
-      - /home/jtremesay/projects/coincoin/manage.py:/opt/coincoin/manage.py
+      - /home/jtremesay/projects/coincoin:/opt/coincoin
