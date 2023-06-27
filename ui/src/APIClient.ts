@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios, { AxiosResponse } from 'axios'
 
 export class Board {
     uuid: string
@@ -10,6 +10,12 @@ export class Board {
         this.name = name
         this.slug = slug
     }
+}
+
+export interface BoardData {
+    uuid: string
+    name: string
+    slug: string
 }
 
 export class Post {
@@ -30,6 +36,14 @@ export class Post {
     }
 }
 
+export interface PostData {
+    uuid: string
+    id: string
+    timestamp: string
+    login: string
+    message: string
+    info: string
+}
 
 export class APIClient {
     api_root: string
@@ -40,33 +54,25 @@ export class APIClient {
 
     get_boards(callback: (boards: Board[]) => void) {
         this.get(`boards`,
-            (data: { uuid: string, name: string, slug: string }[]) => callback(data.map(d => new Board(
-                d["uuid"],
-                d["name"],
-                d["slug"]
+            (data: BoardData[]) => callback(data.map(d => new Board(
+                d.uuid,
+                d.name,
+                d.slug
             )))
         )
     }
 
     get_posts(board: Board, callback: (posts: Post[]) => void) {
         this.get(`boards/${board.uuid}/posts`,
-            (data: {
-                uuid: string
-                id: string
-                timestamp: string
-                login: string
-                message: string
-                info: string
-            }[]) => callback(data.map(d => new Post(
-                d["uuid"],
-                parseInt(d["id"]),
-                new Date(d["timestamp"]),
-                d["login"],
-                d["message"],
-                d["info"]
+            (data: PostData[]) => callback(data.map(d => new Post(
+                d.uuid,
+                parseInt(d.id),
+                new Date(d.timestamp),
+                d.login,
+                d.message,
+                d.info
             )))
         )
-
     }
 
     get(suffix: string, callback: (data: any) => void) {
@@ -76,7 +82,7 @@ export class APIClient {
             headers: {
                 "Accept": "application/json"
             }
-        }).then(function (response) {
+        }).then(function (response: AxiosResponse) {
             callback(response.data)
         })
     }
