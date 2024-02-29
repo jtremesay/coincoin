@@ -15,54 +15,54 @@ services:
     image: "redis"
     networks:
       - database
-#
-#  coincoin:
-#    image: "killruana/coincoin:main"
-#    environment:
-#        DATABASE_URL: "postgres://coincoin:coincoin@postgres/coincoin"
-#        CELERY_BROKER_URL: "redis://redis/0"
-#        SECRET_KEY_FILE: /run/secrets/coincoin_secret_key
-#        ALLOWED_HOSTS: coincoin.jtremesay.org
-#    ports:
-#      - "8001:8001"
-#    networks:
-#      - database
-#      - traefik_public
-#    secrets:
-#      - coincoin_secret_key
-#    labels:
-#      - traefik.enable=true
-#      - traefik.http.routers.coincoin.rule=Host(`coincoin.jtremesay.org`)
-#      - traefik.http.routers.coincoin.entrypoints=websecure
-#      - traefik.http.services.coincoin.loadbalancer.server.port=8001
-#      - traefik.http.routers.coincoin.service=coincoin
-#      - traefik.http.routers.coincoin.tls.certresolver=zerossl
 
-#  celery_beat:
-#    image: "killruana/coincoin:main"
-#    command: "celery -A proj beat -l INFO --scheduler django_celery_beat.schedulers:DatabaseScheduler"
-#    environment:
-#        DATABASE_URL: "postgres://coincoin:coincoin@postgres/coincoin"
-#        CELERY_BROKER_URL: "redis://redis/0"
-#        SECRET_KEY_FILE: /run/secrets/coincoin_secret_key
-#        ALLOWED_HOSTS: coincoin.jtremesay.org
-#    networks:
-#      - database
-#    secrets:
-#      - coincoin_secret_key
+  coincoin:
+    image: "killruana/coincoin:main"
+    environment:
+        DATABASE_URL: "postgres://coincoin:coincoin@postgres/coincoin"
+        CELERY_BROKER_URL: "redis://redis/0"
+        SECRET_KEY_FILE: /run/secrets/coincoin_secret_key
+        ALLOWED_HOSTS: coincoin.jtremesay.org
+    ports:
+      - "8001:8001"
+    networks:
+      - database
+      - traefik_public
+    secrets:
+      - coincoin_secret_key
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.coincoin.rule=Host(`coincoin.jtremesay.org`)
+      - traefik.http.routers.coincoin.entrypoints=websecure
+      - traefik.http.services.coincoin.loadbalancer.server.port=8001
+      - traefik.http.routers.coincoin.service=coincoin
+      - traefik.http.routers.coincoin.tls.certresolver=zerossl
 
-#  celery_worker:
-#    image: "killruana/coincoin:main"
-#    command: "celery -A proj worker -l INFO"
-#    environment:
-#        DATABASE_URL: "postgres://coincoin:coincoin@postgres/coincoin"
-#        CELERY_BROKER_URL: "redis://redis/0"
-#        SECRET_KEY_FILE: /run/secrets/coincoin_secret_key
-#        ALLOWED_HOSTS: coincoin.jtremesay.org
-#    networks:
-#      - database
-#    secrets:
-#      - coincoin_secret_key
+  celery_beat:
+    image: "killruana/coincoin:main"
+    command: "celery -A proj beat -l INFO --scheduler django_celery_beat.schedulers:DatabaseScheduler"
+    environment:
+        DATABASE_URL: "postgres://coincoin:coincoin@postgres/coincoin"
+        CELERY_BROKER_URL: "redis://redis/0"
+        SECRET_KEY_FILE: /run/secrets/coincoin_secret_key
+        ALLOWED_HOSTS: coincoin.jtremesay.org
+    networks:
+      - database
+    secrets:
+      - coincoin_secret_key
+
+  celery_worker:
+    image: "killruana/coincoin:main"
+    command: "celery -A proj worker -l INFO"
+    environment:
+        DATABASE_URL: "postgres://coincoin:coincoin@postgres/coincoin"
+        CELERY_BROKER_URL: "redis://redis/0"
+        SECRET_KEY_FILE: /run/secrets/coincoin_secret_key
+        ALLOWED_HOSTS: coincoin.jtremesay.org
+    networks:
+      - database
+    secrets:
+      - coincoin_secret_key
 
 networks:
   database:
