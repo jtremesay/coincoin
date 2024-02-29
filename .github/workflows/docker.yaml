@@ -53,6 +53,6 @@ jobs:
       -
         name: Redeploy
         uses: distributhor/workflow-webhook@v3
-        env:
+        with:
           webhook_url: ${{ secrets.WEBHOOK_URL }}
           verify_ssl: false
