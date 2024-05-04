@@ -32,11 +32,11 @@ services:
       - coincoin_secret_key
     labels:
       - traefik.enable=true
-      - traefik.http.routers.coincoin.rule=Host(`coincoin.jtremesay.org`)
+      - traefik.http.routers.coincoin.rule=Host(`coincoin.jtremesay.org`) || Host(`coincoin.slaanesh.org`)
       - traefik.http.routers.coincoin.entrypoints=websecure
       - traefik.http.services.coincoin.loadbalancer.server.port=8001
       - traefik.http.routers.coincoin.service=coincoin
-      - traefik.http.routers.coincoin.tls.certresolver=zerossl
+      - traefik.http.routers.coincoin.tls.certresolver=leresolver
 
   celery_beat:
     image: "killruana/coincoin:main"
