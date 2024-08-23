@@ -37,6 +37,9 @@ services:
       - traefik.http.services.coincoin.loadbalancer.server.port=8001
       - traefik.http.routers.coincoin.service=coincoin
       - traefik.http.routers.coincoin.tls.certresolver=leresolver
+    deploy:
+      labels:
+        - shepherd.autodeploy=false
 
   celery_beat:
     image: "killruana/coincoin:main"
@@ -50,6 +53,9 @@ services:
       - database
     secrets:
       - coincoin_secret_key
+    deploy:
+      labels:
+        - shepherd.autodeploy=false
 
   celery_worker:
     image: "killruana/coincoin:main"
@@ -63,6 +69,9 @@ services:
       - database
     secrets:
       - coincoin_secret_key
+    deploy:
+      labels:
+        - shepherd.autodeploy=false
 
 networks:
   database:
