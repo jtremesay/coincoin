@@ -1,16 +1,5 @@
 version: "3.8"
 services:
-  postgres:
-    image: "postgres:16"
-    environment:
-      POSTGRES_DB: "coincoin"
-      POSTGRES_USER: "coincoin"
-      POSTGRES_PASSWORD: "coincoin"
-    networks:
-      - database
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-
   postgres17:
     image: "postgres:17"
     environment:
@@ -30,7 +19,7 @@ services:
   coincoin:
     image: "killruana/coincoin:main"
     environment:
-        DATABASE_URL: "postgres://coincoin:coincoin@postgres/coincoin"
+        DATABASE_URL: "postgres://coincoin:coincoin@postgres17/coincoin"
         CELERY_BROKER_URL: "redis://redis/0"
         SECRET_KEY_FILE: /run/secrets/coincoin_secret_key
         ALLOWED_HOSTS: coincoin.jtremesay.org
@@ -56,7 +45,7 @@ services:
     image: "killruana/coincoin:main"
     command: "celery -A proj beat -l INFO --scheduler django_celery_beat.schedulers:DatabaseScheduler"
     environment:
-        DATABASE_URL: "postgres://coincoin:coincoin@postgres/coincoin"
+        DATABASE_URL: "postgres://coincoin:coincoin@postgres17/coincoin"
         CELERY_BROKER_URL: "redis://redis/0"
         SECRET_KEY_FILE: /run/secrets/coincoin_secret_key
         ALLOWED_HOSTS: coincoin.jtremesay.org
@@ -72,7 +61,7 @@ services:
     image: "killruana/coincoin:main"
     command: "celery -A proj worker -l INFO"
     environment:
-        DATABASE_URL: "postgres://coincoin:coincoin@postgres/coincoin"
+        DATABASE_URL: "postgres://coincoin:coincoin@postgres17/coincoin"
         CELERY_BROKER_URL: "redis://redis/0"
         SECRET_KEY_FILE: /run/secrets/coincoin_secret_key
         ALLOWED_HOSTS: coincoin.jtremesay.org
@@ -94,5 +83,4 @@ secrets:
     external: true
 
 volumes:
-  postgres_data:
   postgres17_data:
