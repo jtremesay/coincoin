@@ -11,6 +11,17 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
+  postgres17:
+    image: "postgres:17"
+    environment:
+      POSTGRES_DB: "coincoin"
+      POSTGRES_USER: "coincoin"
+      POSTGRES_PASSWORD: "coincoin"
+    networks:
+      - database
+    volumes:
+      - postgres17_data:/var/lib/postgresql/data
+
   redis:
     image: "redis"
     networks:
@@ -84,3 +95,4 @@ secrets:
 
 volumes:
   postgres_data:
+  postgres17_data:
